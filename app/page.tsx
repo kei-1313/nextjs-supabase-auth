@@ -1,4 +1,7 @@
-import Image from 'next/image'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+
+
 
 export default function Home() {
   return (

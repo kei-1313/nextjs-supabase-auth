@@ -1,12 +1,21 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 
+import type  {Database } from '@/lib/database.types'
 
+const Home = async() => {
+  const supabase = createServerComponentClient<Database>({
+    cookies
+  })
 
-export default function Home() {
+  //セッションの取得
+  const { data: {session} } = await supabase.auth.getSession()
+
   return (
-    <main className="flex-1 container max-w-screen-sm mx-auto px-1 py-5">
-      <h1>HOME</h1>
-    </main>
+    <div>
+      {session ? <div>ログイン済み</div> : <div>未ログイン</div>}
+    </div>
   )
 }
+
+export default Home

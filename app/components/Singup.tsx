@@ -72,7 +72,7 @@ const Signup = () => {
         </div>
           <div className='mb-5'>
             {loading? (
-              <Loading color="bg-pink-500"/>
+              <Loading/>
             ) : (
               <button 
                 type='submit'

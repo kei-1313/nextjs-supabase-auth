@@ -93,7 +93,7 @@ const Login = () => {
           </div>
           <div className='mb-5'>
             {loading? (
-              <Loading/>
+              <Loading color="bg-sky-500"/>
             ) : (
               <button 
                 type='submit'

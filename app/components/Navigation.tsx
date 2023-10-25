@@ -17,7 +17,7 @@ const Navigation = ({ session }: {session: Session | null }) => {
           {session ? (
             <div className="flex items-center space-x-5">
               <Link href="/settings/profile">
-                <div className="relative w-10 h-10">
+                <div className="relative w-24">
                  プロフィール
                 </div>
               </Link>

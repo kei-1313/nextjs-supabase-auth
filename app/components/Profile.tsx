@@ -11,6 +11,7 @@ import Loading from '@/app/loading'
 import * as z from 'zod'
 import type { Database } from '@/lib/database.types'
 import useStore from '@/store'
+import { log } from 'util'
 type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
@@ -29,6 +30,8 @@ const Profile = () => {
   const [avatarUrl, setAvatarUrl] = useState('/default.png')
   const { user } = useStore()
 
+  console.log(supabase);
+  
   const {
     register,
     handleSubmit,
@@ -53,6 +56,7 @@ const Profile = () => {
   // 画像アップロード
   const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
+    console.log();
     setFileMessage('')
 
     // ファイルが選択されていない場合
@@ -63,6 +67,10 @@ const Profile = () => {
 
     const fileSize = files[0]?.size / 1024 / 1024 // size in MB
     const fileType = files[0]?.type // MIME type of the file
+
+    console.log(fileSize);
+    console.log(fileType);
+    
 
     // 画像サイズが2MBを超える場合
     if (fileSize > 2) {

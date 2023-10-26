@@ -80,11 +80,66 @@ const Profile = () => {
     setAvatar(files[0])
   }, [])
 
-  const onSubmit = () => {
+   // 送信
+   const onSubmit: SubmitHandler<Schema> = async (data) => {
+    setLoading(true)
+    setMessage('')
 
-  }
+    try {
+      let avatar_url = user.avatar_url
 
+      if (avatar) {
+        // supabaseストレージに画像アップロード
+        const { data: storageData, error: storageError } = await supabase.storage
+          .from('profile')
+          .upload(`${user.id}/${uuidv4()}`, avatar)
 
+        // エラーチェック
+        if (storageError) {
+          setMessage('エラーが発生しました。' + storageError.message)
+          return
+        }
+
+        if (avatar_url) {
+          const fileName = avatar_url.split('/').slice(-1)[0]
+
+          // 古い画像を削除
+          await supabase.storage.from('profile').remove([`${user.id}/${fileName}`])
+        }
+
+        // 画像のURLを取得
+        const { data: urlData } = await supabase.storage
+          .from('profile')
+          .getPublicUrl(storageData.path)
+
+        avatar_url = urlData.publicUrl
+      }
+
+      // プロフィールアップデート
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({
+          name: data.name,
+          introduce: data.introduce,
+          avatar_url,
+        })
+        .eq('id', user.id)
+
+      // エラーチェック
+      if (updateError) {
+        setMessage('エラーが発生しました。' + updateError.message)
+        return
+      }
+
+      setMessage('プロフィールを更新しました。')
+    } catch(error) {
+      setMessage('エラーが発生しました。' + error)
+      return
+    } finally {
+      setLoading(false)
+      router.refresh()
+    }
+   }
 
 	return (
     <div>

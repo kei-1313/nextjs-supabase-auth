@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState, useEffect } from 'react'
+import { useCallback, useState, useEffect, useRef } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { v4 as uuidv4 } from 'uuid'
@@ -29,6 +29,10 @@ const Profile = () => {
   const [avatarUrl, setAvatarUrl] = useState('/default.png')
   const { user } = useStore()
 
+  //ファイル選択のカスタマイズのためにinputへアクセス
+  const inputRef = useRef<HTMLInputElement>(null!);
+  const [fileButtonText, setFileButtonText] = useState('ファイル選択')
+
   // console.log(supabase);
   
   const {
@@ -56,7 +60,7 @@ const Profile = () => {
   const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     setFileMessage('')
-    console.log(files);
+    
     
     // ファイルが選択されていない場合
     if (!files || files?.length == 0) {
@@ -66,10 +70,6 @@ const Profile = () => {
 
     const fileSize = files[0]?.size / 1024 / 1024 // size in MB
     const fileType = files[0]?.type // MIME type of the file
-
-    console.log(fileSize);
-    console.log(fileType);
-    
 
     // 画像サイズが2MBを超える場合
     if (fileSize > 2) {
@@ -85,11 +85,19 @@ const Profile = () => {
 
     // 画像をセット
     setAvatar(files[0])
+    
+    //ファイル選択ボタンのテキストを変更
+    setFileButtonText(files[0].name)
 
     //アイコンを選択すると画像が切り替わる
     setAvatarUrl(window.URL.createObjectURL(files[0]))
-    
+
   }, [])
+
+  const onProfileButtonClick = () => {
+    // useRef<HTMLInputElement>のcurrent要素を呼び出し、ファイル選択画面を表示
+    inputRef.current.click();
+  };
 
    // 送信
    const onSubmit: SubmitHandler<Schema> = async (data) => {
@@ -104,10 +112,6 @@ const Profile = () => {
         const { data: storageData, error: storageError } = await supabase.storage
           .from('profile')
           .upload(`${user.id}/${uuidv4()}`, avatar)
-        
-
-        console.log(storageData);
-        
 
         // エラーチェック
         if (storageError) {
@@ -166,7 +170,10 @@ const Profile = () => {
             <div className="relative w-24 h-24 mb-5">
               <Image src={avatarUrl} className="rounded-full object-cover" alt="avatar" fill />
             </div>
-            <input type="file" id="avatar" onChange={onUploadImage} />
+            <input hidden ref={inputRef} type="file" id="avatar"onChange={onUploadImage} />
+            <div className='text-base border border-sky-500 px-6 py-2 text-sky-500' onClick={onProfileButtonClick}>
+              {fileButtonText}
+            </div>
             {fileMessage && <div className="text-center text-red-500 my-5">{fileMessage}</div>}
           </div>
         </div>

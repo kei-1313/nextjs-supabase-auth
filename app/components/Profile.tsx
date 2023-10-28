@@ -56,7 +56,8 @@ const Profile = () => {
   const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     setFileMessage('')
-
+    console.log(files);
+    
     // ファイルが選択されていない場合
     if (!files || files?.length == 0) {
       setFileMessage('画像をアップロードしてください。')
@@ -84,6 +85,10 @@ const Profile = () => {
 
     // 画像をセット
     setAvatar(files[0])
+
+    //アイコンを選択すると画像が切り替わる
+    setAvatarUrl(window.URL.createObjectURL(files[0]))
+    
   }, [])
 
    // 送信
@@ -99,6 +104,10 @@ const Profile = () => {
         const { data: storageData, error: storageError } = await supabase.storage
           .from('profile')
           .upload(`${user.id}/${uuidv4()}`, avatar)
+        
+
+        console.log(storageData);
+        
 
         // エラーチェック
         if (storageError) {

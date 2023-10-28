@@ -37,7 +37,7 @@ const Signup = () => {
 
   const onSubmit: SubmitHandler<Schema> = async(data) => {
     setLoading(true)
-    console.log(data);
+    // console.log(data);
     
     try{
       //signUp関数をつかってemailとpasswordでサインアップする

@@ -11,7 +11,6 @@ import Loading from '@/app/loading'
 import * as z from 'zod'
 import type { Database } from '@/lib/database.types'
 import useStore from '@/store'
-import { log } from 'util'
 type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
@@ -30,7 +29,7 @@ const Profile = () => {
   const [avatarUrl, setAvatarUrl] = useState('/default.png')
   const { user } = useStore()
 
-  console.log(supabase);
+  // console.log(supabase);
   
   const {
     register,
@@ -56,7 +55,6 @@ const Profile = () => {
   // 画像アップロード
   const onUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
-    console.log();
     setFileMessage('')
 
     // ファイルが選択されていない場合

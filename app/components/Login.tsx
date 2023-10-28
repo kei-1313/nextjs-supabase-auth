@@ -53,14 +53,14 @@ const Login = () => {
 
       if(error) {
         setMessage('エラーが発生しました。'+ error.message)
-        console.log(error)
+        // console.log(error)
         return
       }
       
       // トップページに遷移
       router.push('/')
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       setMessage('エラーが発生しました。'+ error)
       return
     } finally {
@@ -93,7 +93,7 @@ const Login = () => {
           </div>
           <div className='mb-5'>
             {loading? (
-              <Loading color="bg-sky-500"/>
+              <Loading />
             ) : (
               <button 
                 type='submit'

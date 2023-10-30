@@ -33,7 +33,6 @@ const Profile = () => {
   const inputRef = useRef<HTMLInputElement>(null!);
   const [fileButtonText, setFileButtonText] = useState('ファイル選択')
 
-  // console.log(supabase);
   
   const {
     register,

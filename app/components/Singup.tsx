@@ -9,7 +9,6 @@ import Link from 'next/link'
 import Loading from '@/app/loading'
 import * as z from 'zod'
 import type { Database } from '@/lib/database.types'
-import { log } from 'console'
 type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
@@ -37,7 +36,6 @@ const Signup = () => {
 
   const onSubmit: SubmitHandler<Schema> = async(data) => {
     setLoading(true)
-    // console.log(data);
     
     try{
       //signUp関数をつかってemailとpasswordでサインアップする

@@ -53,14 +53,12 @@ const Login = () => {
 
       if(error) {
         setMessage('エラーが発生しました。'+ error.message)
-        // console.log(error)
         return
       }
       
       // トップページに遷移
       router.push('/')
     } catch (error) {
-      // console.log(error)
       setMessage('エラーが発生しました。'+ error)
       return
     } finally {

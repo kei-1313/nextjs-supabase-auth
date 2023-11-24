@@ -39,8 +39,7 @@ const Login = () => {
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     // ローディング開始
     setLoading(true)
-
-
+    
     try {
       //入力内容をデータベースのユーザと比較する
       //問題なければ、ログイン後にトップページへ飛ばす

@@ -16,7 +16,7 @@ const schema = z.object({
   
 })
 
-const ResetPassword = () => { 
+const ResetPassword = () => {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)
